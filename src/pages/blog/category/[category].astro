@@ -1,4 +1,5 @@
 ---
+// src/pages/blog/category/[category].astro
 import { getCollection } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import BlogCard from '../../../components/BlogCard.astro';
@@ -6,17 +7,37 @@ import { slugify } from '../../../utils';
 
 // Generate paths for all categories
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  const categories = [...new Set(posts.flatMap(post => post.data.categories))];
+  try {
+    const posts = await getCollection('blog');
+    
+    // Extract all categories from posts and flatten the array
+    let allCategories: string[] = [];
+    posts.forEach(post => {
+      if (post.data.categories && Array.isArray(post.data.categories)) {
+        allCategories = [...allCategories, ...post.data.categories];
+      }
+    });
+    
+    // Get unique categories
+    const categories = [...new Set(allCategories)];
   
   return categories.map(category => {
+    // Convert category to string if it's not already
+    const categoryStr = typeof category === 'string' ? category : category.toString();
+    
+    // Filter posts that include this category
     const filteredPosts = posts.filter(post => 
-      post.data.categories.includes(category)
-    ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+      post.data.categories && 
+      post.data.categories.some(cat => 
+        (typeof cat === 'string' ? cat : cat.toString()).toLowerCase() === categoryStr.toLowerCase()
+      )
+    ).sort((a, b) => 
+      new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+    );
     
     return {
-      params: { category: category.toLowerCase() },
-      props: { category, posts: filteredPosts }
+      params: { category: categoryStr.toLowerCase() },
+      props: { category: categoryStr, posts: filteredPosts }
     };
   });
 }

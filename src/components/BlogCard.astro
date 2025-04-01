@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import { Image } from "astro:assets";
 import { formatDate } from "../utils";
 
 const { post } = Astro.props;
@@ -10,21 +9,6 @@ const { post } = Astro.props;
   class="bg-white rounded-lg shadow-md overflow-hidden transition hover:shadow-lg"
 >
   <a href={`/blog/${post.slug}`}>
-    {
-      post.data.heroImage && (
-        <div class="aspect-video overflow-hidden">
-          <Image
-            src={post.data.heroImage}
-            alt={post.data.title}
-            width={600}
-            height={338}
-            format="webp"
-            fit="cover"
-            class="w-full h-full object-cover transition hover:scale-105"
-          />
-        </div>
-      )
-    }
     <div class="p-6">
       <div class="flex items-center text-sm text-gray-500 mb-2">
         <time datetime={post.data.pubDate.toISOString()}>

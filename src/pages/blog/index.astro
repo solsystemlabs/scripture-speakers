@@ -1,14 +1,27 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BlogCard from "../../components/BlogCard.astro";
 
 // Get all blog posts
-const allPosts = await getCollection('blog');
-const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+let posts = [];
+let categories = [];
 
-// Get unique categories
-const categories = [...new Set(allPosts.flatMap(post => post.data.categories))].sort();
+try {
+  const allPosts = await getCollection("blog");
+  posts = allPosts.sort(
+    (a, b) =>
+      new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
+  );
+
+  // Get unique categories
+  const allCategories = [
+    ...new Set(posts.flatMap((post) => post.data.categories || [])),
+  ];
+  categories = allCategories.sort();
+} catch (error) {
+  console.error("Error loading blog posts:", error);
+}
 ---
 
 <Layout title="Blog - Scripture Speakers">
@@ -20,34 +33,54 @@ const categories = [...new Set(allPosts.flatMap(post => post.data.categories))].
       </p>
     </div>
   </section>
-  
+
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="flex flex-col md:flex-row gap-8">
       <!-- Main Content -->
       <div class="md:w-3/4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {posts.map(post => (
-            <BlogCard post={post} />
-          ))}
-        </div>
+        {
+          posts.length > 0 ? (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {posts.map((post) => (
+                <BlogCard post={post} />
+              ))}
+            </div>
+          ) : (
+            <div class="text-center py-12">
+              <h2 class="text-2xl font-medium text-gray-900 mb-4">
+                No blog posts found
+              </h2>
+              <p class="text-gray-600">
+                Please check your content configuration and make sure your blog
+                posts are properly formatted.
+              </p>
+            </div>
+          )
+        }
       </div>
-      
+
       <!-- Sidebar -->
       <div class="md:w-1/4">
         <div class="bg-white rounded-lg shadow p-6 sticky top-6">
           <h2 class="text-xl font-semibold mb-4">Categories</h2>
-          <ul class="space-y-2">
-            {categories.map(category => (
-              <li>
-                <a 
-                  href={`/blog/category/${category.toLowerCase()}`}
-                  class="text-blue-600 hover:text-blue-800"
-                >
-                  {category}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {
+            categories.length > 0 ? (
+              <ul class="space-y-2">
+                {categories.map((category) => (
+                  <li>
+                    <a
+                      href={`/blog/category/${category.toLowerCase()}`}
+                      class="text-blue-600 hover:text-blue-800"
+                    >
+                      {category}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="text-gray-600">No categories found</p>
+            )
+          }
         </div>
       </div>
     </div>

@@ -1,0 +1,229 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+// Get resource-related blog posts
+const allPosts = await getCollection("blog");
+const resourcePosts = allPosts
+  .filter((post) => post.data.categories.includes("Resources"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 6);
+
+const bookReviews = allPosts
+  .filter((post) => post.data.categories.includes("Book Reviews"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+---
+
+<Layout title="Resources - Scripture Speakers">
+  <section class="bg-blue-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">
+        Scripture Memory Resources
+      </h1>
+      <p class="text-xl text-blue-100">
+        Tools, books, and guidance to help you on your Scripture memory journey.
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured Book -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:flex lg:items-center lg:justify-between">
+        <div class="lg:w-1/2 lg:pr-12 mb-8 lg:mb-0">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Speaking Scripture
+          </h2>
+          <p class="text-xl text-gray-700 mb-6">
+            How to Memorize and Recite with Purpose and Delight
+          </p>
+          <p class="text-gray-600 mb-6">
+            Learn practical techniques for effective Scripture memorization and
+            recitation in this comprehensive guide. Discover how to overcome
+            common obstacles, find delight in God's Word, and share it
+            meaningfully with others.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href="https://a.co/d/0NGEoUt"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-medium"
+            >
+              Buy on Amazon
+            </a>
+            <a
+              href="/blog/published"
+              class="bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
+        <div class="lg:w-1/2">
+          <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+            <!-- Placeholder for book cover -->
+            <div
+              class="aspect-[2/3] bg-gray-200 rounded-md mb-4 flex items-center justify-center"
+            >
+              <p class="text-gray-600 text-center p-4">Book Cover Image</p>
+            </div>
+            <p class="text-sm text-gray-600 italic">
+              "Hiding God's Word in your heart is not just for children's
+              ministry. This practical guide will help you discover the joy of
+              Scripture memory at any age."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resource Blog Posts -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">
+        Helpful Articles on Scripture Memory
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {
+          resourcePosts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="group">
+              <article class="bg-white rounded-lg shadow-md overflow-hidden h-full transition group-hover:shadow-lg">
+                <div class="p-6">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-gray-600 mb-4 line-clamp-3">
+                    {post.data.description}
+                  </p>
+                  <p class="text-sm text-blue-600 font-medium">
+                    Read article →
+                  </p>
+                </div>
+              </article>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-8 text-center">
+        <a
+          href="/resources"
+          class="inline-block bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-medium"
+        >
+          View All Resource Articles
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book Reviews -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">
+        Scripture Memory Book Reviews
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {
+          bookReviews.map((post) => (
+            <a href={`/blog/${post.slug}`} class="group">
+              <article class="bg-gray-50 rounded-lg shadow-md overflow-hidden h-full transition group-hover:shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600">
+                  {post.data.title}
+                </h3>
+                <p class="text-gray-600 mb-4 line-clamp-3">
+                  {post.data.description}
+                </p>
+                <p class="text-sm text-blue-600 font-medium">Read review →</p>
+              </article>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-8 text-center">
+        <a
+          href="/blog/category/book-reviews"
+          class="inline-block bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-medium"
+        >
+          View All Book Reviews
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- External Resources -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">
+        Additional Scripture Memory Resources
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">
+            Scripture Memory Fellowship
+          </h3>
+          <p class="text-gray-600 mb-4">
+            Provides memory tools, verse cards, and memory programs for
+            individuals and churches.
+          </p>
+          <a
+            href="https://scripturememory.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-600 hover:underline font-medium"
+          >
+            Visit Website →
+          </a>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">Bible Memory Goal</h3>
+          <p class="text-gray-600 mb-4">
+            Online community dedicated to Scripture memory with accountability
+            and encouragement.
+          </p>
+          <a
+            href="https://www.biblememorygoal.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-600 hover:underline font-medium"
+          >
+            Visit Website →
+          </a>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">ScriptureFest</h3>
+          <p class="text-gray-600 mb-4">
+            Events where people gather to recite Scripture and encourage each
+            other in memorization.
+          </p>
+          <a
+            href="https://scripturefest.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-600 hover:underline font-medium"
+          >
+            Visit Website →
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <a
+          href="/blog/3-steps-to-build-a-culture-of-scripture-memory-in-your-church-or-ministry"
+          class="inline-block bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-medium"
+        >
+          Learn How to Build a Scripture Memory Culture
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

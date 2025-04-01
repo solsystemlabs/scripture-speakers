@@ -98,10 +98,11 @@ const latestPosts = posts
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Latest Articles
+          From Our Blog
         </h2>
         <p class="max-w-2xl mx-auto text-lg text-gray-600">
-          Tips, techniques and encouragement for your Scripture memory journey.
+          Insights, encouragement, and practical tips for your Scripture memory
+          journey.
         </p>
       </div>
 
@@ -109,12 +110,40 @@ const latestPosts = posts
         {latestPosts.map((post) => <BlogCard post={post} />)}
       </div>
 
-      <div class="text-center mt-12">
+      <div class="mt-12 text-center">
+        <h3 class="text-xl font-semibold mb-4">Popular Categories</h3>
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+          <a
+            href="/blog/category/scripture-memory"
+            class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full"
+          >
+            Scripture Memory
+          </a>
+          <a
+            href="/resources"
+            class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full"
+          >
+            Resources
+          </a>
+          <a
+            href="/blog/category/recitation"
+            class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full"
+          >
+            Recitation
+          </a>
+          <a
+            href="/blog/category/thoughts-on-scriptures"
+            class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full"
+          >
+            Thoughts on Scriptures
+          </a>
+        </div>
+
         <a
           href="/blog"
           class="inline-block bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-medium"
         >
-          View All Articles
+          Explore All Articles
         </a>
       </div>
     </div>

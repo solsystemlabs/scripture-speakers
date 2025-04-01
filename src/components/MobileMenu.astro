@@ -1,0 +1,61 @@
+---
+const { class: className } = Astro.props;
+
+const navItems = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Resources', href: '/resources' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
+];
+---
+
+<div class={className}>
+  <button id="mobile-menu-button" class="text-gray-700">
+    <span class="sr-only">Open main menu</span>
+    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+  
+  <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-white">
+    <div class="flex justify-end p-4">
+      <button id="close-menu-button" class="text-gray-700">
+        <span class="sr-only">Close menu</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <nav class="px-4 py-2">
+      <ul class="space-y-4">
+        {navItems.map(item => (
+          <li>
+            <a href={item.href} class="block py-2 text-xl font-medium text-gray-700 hover:text-blue-600">
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const closeMenuButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton?.addEventListener('click', () => {
+      mobileMenu?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeMenuButton?.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

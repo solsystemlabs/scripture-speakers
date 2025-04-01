@@ -1,0 +1,122 @@
+---
+import "../styles/global.css";
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import BlogCard from "../components/BlogCard.astro";
+
+// Get latest blog posts
+const posts = await getCollection("blog");
+const latestPosts = posts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<Layout
+  title="Scripture Speakers - Resources for Scripture Memorization and Recitation"
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          Memorize and Recite Scripture with Confidence
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 text-blue-100">
+          Effective resources and techniques to help you store God's Word in
+          your heart.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="/resources"
+            class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium"
+          >
+            Browse Resources
+          </a>
+          <a
+            href="/blog"
+            class="bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 py-3 rounded-lg font-medium"
+          >
+            Read the Blog
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Why Memorize Scripture?
+        </h2>
+        <p class="max-w-2xl mx-auto text-lg text-gray-600">
+          Scripture memorization transforms your mind, strengthens your faith,
+          and prepares you for every circumstance.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-blue-50 p-8 rounded-lg">
+          <div class="text-blue-600 mb-4">
+            <!-- Icon here -->
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Spiritual Growth</h3>
+          <p class="text-gray-600">
+            Hiding God's Word in your heart nurtures spiritual growth and
+            transformation.
+          </p>
+        </div>
+
+        <div class="bg-blue-50 p-8 rounded-lg">
+          <div class="text-blue-600 mb-4">
+            <!-- Icon here -->
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Practical Wisdom</h3>
+          <p class="text-gray-600">
+            Access divine wisdom for daily decisions and challenging
+            circumstances.
+          </p>
+        </div>
+
+        <div class="bg-blue-50 p-8 rounded-lg">
+          <div class="text-blue-600 mb-4">
+            <!-- Icon here -->
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Effective Ministry</h3>
+          <p class="text-gray-600">
+            Equipped with Scripture, you can encourage others and share God's
+            truth effectively.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Blog Posts -->
+  <section class="py-16 md:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Latest Articles
+        </h2>
+        <p class="max-w-2xl mx-auto text-lg text-gray-600">
+          Tips, techniques and encouragement for your Scripture memory journey.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {latestPosts.map((post) => <BlogCard post={post} />)}
+      </div>
+
+      <div class="text-center mt-12">
+        <a
+          href="/blog"
+          class="inline-block bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg font-medium"
+        >
+          View All Articles
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

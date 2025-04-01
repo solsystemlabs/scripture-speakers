@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import Navigation from './Navigation.astro';
+import MobileMenu from './MobileMenu.astro';
+---
+
+<header class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-4">
+      <div class="flex items-center">
+        <a href="/" class="flex items-center">
+          <Image 
+            src="/images/logo.png" 
+            alt="Scripture Speakers Logo" 
+            width={180} 
+            height={50} 
+            format="webp" 
+          />
+        </a>
+      </div>
+      
+      <Navigation class="hidden md:flex" />
+      <MobileMenu class="md:hidden" />
+    </div>
+  </div>
+</header>

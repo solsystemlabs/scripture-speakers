@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+// Get all blog posts
+const allPosts = await getCollection('blog');
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get unique categories
+const categories = [...new Set(allPosts.flatMap(post => post.data.categories))].sort();
+---
+
+<Layout title="Blog - Scripture Speakers">
+  <section class="bg-blue-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Blog</h1>
+      <p class="text-xl text-blue-100">
+        Articles, tips, and insights on Scripture memorization and recitation.
+      </p>
+    </div>
+  </section>
+  
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex flex-col md:flex-row gap-8">
+      <!-- Main Content -->
+      <div class="md:w-3/4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {posts.map(post => (
+            <BlogCard post={post} />
+          ))}
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="md:w-1/4">
+        <div class="bg-white rounded-lg shadow p-6 sticky top-6">
+          <h2 class="text-xl font-semibold mb-4">Categories</h2>
+          <ul class="space-y-2">
+            {categories.map(category => (
+              <li>
+                <a 
+                  href={`/blog/category/${category.toLowerCase()}`}
+                  class="text-blue-600 hover:text-blue-800"
+                >
+                  {category}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
